@@ -13,6 +13,7 @@ Meant for testing purposes only. Use at your own risk.
 ```bash
 docker run \
     -d \
+    --name miniphab \
     -p 80:80 \
     -e PORT=80 \
     -p 2222:22 \
@@ -63,11 +64,13 @@ once the MariaDB client is able to successfully connect. Runs as `mysql`.
 
 ### postfix
 
-Phabricator is opinionated in many ways, and one of those ways is that [admins
-can’t directly set account passwords][passwords]. So, unfortunately, if you set
-yourself up with basic username/password authentication, the only way to set
-your password for the first time is email. Running a mail daemon is the simplest
-way out of this predicament.
+Phabricator likes to send email. A lot. So much so that it won’t consider itself
+fully set up until it can happily spam away. The easiest way to get this running
+out-of-the-box without requiring additional configuration is to use `postfix` to
+provide `sendmail`, so miniphab comes with its own email server. Note that if
+you’re running miniphab on a residential connection, Phabricator probably won’t
+be able to send mail anyway since most ISPs block port 25. Works just fine on a
+cloud server, though.
 
 Runs as `postfix`.
 
@@ -140,6 +143,20 @@ Runs as `nginx`.
 `nginx` is configured pretty much per [Phabricator’s documentation][nginx] and
 includes [websocket forwarding][nginx-ws] to avoid having to expose another
 port.
+
+## Setting account passwords
+
+Phabricator is opinionated in many ways, and one of those ways is that even
+administrators [can’t set user passwords][passwords]. Instead, all password
+handling is done via reset links. Phabricator is able to send these via email.
+If that isn’t an option, you can also generate them via the command line.
+
+Unless you set up third-party authentication, chances are you’ll need to do this
+for your own account if you want to log in from anywhere else.
+
+```bash
+docker exec miniphab /phabricator/bin/auth recover <account>
+```
 
 [aphlict]: https://secure.phabricator.com/book/phabricator/article/notifications/
 [auth]: https://secure.phabricator.com/book/phabricator/article/configuring_accounts_and_registration/
