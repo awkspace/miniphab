@@ -1,0 +1,13 @@
+#!/usr/bin/execlineb -P
+foreground {
+    s6-mkdir -p /var/lib/phabricator/ssh
+}
+foreground {
+    if { s6-test ! -f /var/lib/phabricator/ssh/ssh_host_rsa_key }
+       ssh-keygen -q -f /var/lib/phabricator/ssh/ssh_host_rsa_key -N "" -t rsa
+}
+foreground {
+    if { s6-test ! -f /var/lib/phabricator/ssh/ssh_host_dsa_key }
+       ssh-keygen -q -f /var/lib/phabricator/ssh/ssh_host_dsa_key -N "" -t dsa
+}
+/usr/sbin/sshd -D

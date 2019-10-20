@@ -1,0 +1,2 @@
+#!/usr/bin/execlineb -P
+redirfd -w 2 /dev/null /usr/bin/mysql -e ";"

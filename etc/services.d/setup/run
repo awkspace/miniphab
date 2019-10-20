@@ -1,0 +1,80 @@
+#!/usr/bin/execlineb -P
+
+# Mark this service as oneshot
+foreground {
+    s6-svc -O /run/s6/services/setup
+}
+
+# Perform environment variable substitutions
+foreground {
+    with-contenv importas PROTO PROTO
+    sed -i "s/PROTO/${PROTO}/g" /phabricator/conf/local/local.json
+}
+foreground {
+    with-contenv importas CDN_DOMAIN CDN_DOMAIN
+    sed -i "s/CDN_DOMAIN/${CDN_DOMAIN}/g" /phabricator/conf/local/local.json
+}
+foreground {
+    with-contenv importas DOMAIN DOMAIN
+    sed -i "s/DOMAIN/${DOMAIN}/g" /phabricator/conf/local/local.json
+}
+foreground {
+    with-contenv importas SSH_PORT SSH_PORT
+    sed -i "s/SSH_PORT/${SSH_PORT}/g" /phabricator/conf/local/local.json
+}
+foreground {
+    with-contenv importas PORT PORT
+    sed -i "s/PORT/${PORT}/g" /phabricator/conf/local/local.json
+}
+foreground {
+    with-contenv importas TZ TZ
+    sed -i "s@TZ@${TZ}@g" /phabricator/conf/local/local.json
+}
+
+# Optionally lock the authentication config
+foreground {
+    with-contenv importas LOCK_AUTH LOCK_AUTH
+    if { s6-test $LOCK_AUTH -ne 0 }
+        /phabricator/bin/config set auth.lock-config true
+}
+
+# Ensure persistent storage is set up for large files
+foreground {
+    s6-mkdir -p /var/lib/phabricator/files
+}
+foreground {
+    s6-envuidgid nobody s6-chown -U /var/lib/phabricator/files
+}
+
+# Ensure persistent storage is set up for repositories
+foreground {
+    s6-mkdir -p /var/lib/phabricator/repo
+}
+foreground {
+    s6-envuidgid phd s6-chown -U /var/lib/phabricator/repo
+}
+
+# Wait for the database
+foreground {
+    s6-svc -uwU /run/s6/services/mysql
+}
+
+# Upgrade the database
+foreground {
+    /phabricator/bin/storage upgrade --force
+}
+
+# Wait for logpipe
+foreground {
+    s6-svc -uwu /run/s6/services/logpipe
+}
+
+# Run phd (which logs to logpipe)
+foreground {
+    s6-setuidgid phd /phabricator/bin/phd start
+}
+
+# Start nginx
+foreground {
+    s6-svc -u /run/s6/services/nginx
+}

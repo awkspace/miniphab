@@ -1,0 +1,17 @@
+AuthorizedKeysCommand /usr/local/bin/phabricator-ssh-hook.sh
+AuthorizedKeysCommandUser VCS_USER
+AllowUsers VCS_USER
+
+Port 22
+Protocol 2
+PermitRootLogin no
+AllowAgentForwarding no
+AllowTcpForwarding no
+PrintMotd no
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+AuthorizedKeysFile none
+
+PidFile /var/run/sshd-phabricator.pid
+HostKey /var/lib/phabricator/ssh/ssh_host_rsa_key
+HostKey /var/lib/phabricator/ssh/ssh_host_dsa_key

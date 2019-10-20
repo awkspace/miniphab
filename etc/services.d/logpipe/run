@@ -1,0 +1,3 @@
+#!/bin/sh
+mkfifo -m 666 /run/logpipe
+cat <> /run/logpipe 1>&2

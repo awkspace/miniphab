@@ -1,0 +1,10 @@
+#!/usr/bin/execlineb -P
+
+foreground {
+    s6-svc -uwu /run/s6/services/logpipe
+}
+foreground {
+    s6-mkdir -p /run/nginx
+}
+
+nginx -g "daemon off;"

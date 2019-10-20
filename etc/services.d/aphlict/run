@@ -1,0 +1,2 @@
+#!/usr/bin/execlineb -P
+s6-setuidgid nobody /phabricator/bin/aphlict debug --config /etc/aphlict.json

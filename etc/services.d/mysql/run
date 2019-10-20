@@ -1,0 +1,15 @@
+#!/usr/bin/execlineb -P
+
+foreground {
+    if { s6-test ! -d /var/lib/phabricator/db }
+       mysql_install_db --user=mysql --datadir=/var/lib/phabricator/db
+}
+
+foreground {
+    s6-mkdir -p /run/mysqld
+}
+foreground {
+    s6-envuidgid mysql s6-chown -U /run/mysqld
+}
+
+s6-notifyoncheck -d s6-setuidgid mysql mysqld -h /var/lib/phabricator/db
