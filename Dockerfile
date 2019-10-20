@@ -72,7 +72,7 @@ RUN ln -s /usr/bin/pygmentize-3 /usr/bin/pygmentize \
     && addgroup $VCS_USER \
     && adduser -G $VCS_USER -D $VCS_USER \
     && passwd -u $VCS_USER \
-    && sed -i "s/VCS_USER/$VCS_USER/g" /etc/sudoers \
+    && sed -i "s/VCS_USER/$VCS_USER/g" /etc/sudoers.d/diffusion \
     && sed -i "s/VCS_USER/$VCS_USER/g" /etc/ssh/sshd_config \
     && sed -i "s/VCS_USER/$VCS_USER/g" /usr/local/bin/phabricator-ssh-hook.sh \
     && sed -i "s/VCS_USER/$VCS_USER/g" /phabricator/conf/local/local.json \
