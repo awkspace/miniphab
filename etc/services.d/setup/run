@@ -7,8 +7,8 @@ foreground {
 
 # Perform environment variable substitutions
 foreground {
-    with-contenv importas PROTO PROTO
-    sed -i "s/PROTO/${PROTO}/g" /phabricator/conf/local/local.json
+    with-contenv importas SCHEME SCHEME
+    sed -i "s/SCHEME/${SCHEME}/g" /phabricator/conf/local/local.json
 }
 foreground {
     with-contenv importas CDN_DOMAIN CDN_DOMAIN

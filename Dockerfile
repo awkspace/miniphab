@@ -7,7 +7,7 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
 ARG VCS_USER=git
 
-ENV PROTO http
+ENV SCHEME http
 ENV DOMAIN phabricator.localhost
 ENV CDN_DOMAIN usercontent.localhost
 ENV PORT 80

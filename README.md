@@ -38,7 +38,7 @@ docker run \
 
 | Name         | Default                 | Description                                                                                 |
 |:-------------|:------------------------|:--------------------------------------------------------------------------------------------|
-| `PROTO`      | `http`                  | The user-facing protocol (http or https).                                                   |
+| `SCHEME`     | `http`                  | The user-facing protocol (http or https).                                                   |
 | `DOMAIN`     | `phabricator.localhost` | The domain to use. Phabricator [insists it have a dot][dot].                                |
 | `CDN_DOMAIN` | `usercontent.localhost` | A separate domain for uploaded content. Phabricator [insists on making this separate][cdn]. |
 | `PORT`       | `80`                    | The exposed port that Phabricator runs on.                                                  |

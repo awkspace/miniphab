@@ -1,5 +1,5 @@
 {
-  "phabricator.base-uri": "PROTO://DOMAIN:PORT/",
+  "phabricator.base-uri": "SCHEME://DOMAIN:PORT/",
   "phabricator.timezone": "TZ",
   "diffusion.ssh-port": SSH_PORT,
   "diffusion.ssh-user": "VCS_USER",
@@ -7,7 +7,7 @@
   "repository.default-local-path": "/var/lib/phabricator/repo",
   "storage.local-disk.path": "/var/lib/phabricator/files",
   "pygments.enabled": true,
-  "security.alternate-file-domain": "PROTO://CDN_DOMAIN:PORT/",
+  "security.alternate-file-domain": "SCHEME://CDN_DOMAIN:PORT/",
   "cluster.mailers": [
     {
       "key": "local",
@@ -19,7 +19,7 @@
       "type": "client",
       "host": "DOMAIN",
       "port": PORT,
-      "protocol": "PROTO",
+      "protocol": "SCHEME",
       "path": "/ws/"
     },
     {
