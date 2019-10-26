@@ -8,6 +8,11 @@ foreground {
 # Perform environment variable substitutions
 foreground {
     with-contenv importas SCHEME SCHEME
+    if { s6-test "${SCHEME}" = "https" }
+       sed -i "s/$https/on/g" /etc/nginx/nginx.conf
+}
+foreground {
+    with-contenv importas SCHEME SCHEME
     sed -i "s/SCHEME/${SCHEME}/g" /phabricator/conf/local/local.json
 }
 foreground {
