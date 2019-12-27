@@ -66,8 +66,7 @@ COPY etc /etc
 COPY bin/phabricator-ssh-hook.sh /usr/local/bin/
 COPY config.json /phabricator/conf/local/local.json
 
-RUN ln -s /usr/bin/pygmentize-3 /usr/bin/pygmentize \
-    && addgroup phd \
+RUN addgroup phd \
     && adduser -G phd -h /var/lib/phabricator -H -D phd \
     && addgroup $VCS_USER \
     && adduser -G $VCS_USER -D $VCS_USER \
