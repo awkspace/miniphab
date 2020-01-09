@@ -6,3 +6,4 @@ local_infile=0
 
 [mysqld]
 skip-networking
+skip-grant-tables
