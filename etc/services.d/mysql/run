@@ -12,4 +12,4 @@ foreground {
     s6-envuidgid mysql s6-chown -U /run/mysqld
 }
 
-s6-notifyoncheck -d s6-setuidgid mysql mysqld -h /var/lib/phabricator/db
+s6-notifyoncheck -n 0 -d s6-setuidgid mysql mysqld -h /var/lib/phabricator/db
