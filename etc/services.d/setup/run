@@ -68,32 +68,20 @@ foreground {
     s6-envuidgid phd s6-chown -U /var/lib/phabricator/repo
 }
 
-# Wait for the database
-foreground {
-    s6-svc -uwU /run/s6/services/mysql
-}
-
 # Upgrade the database
 foreground {
+    s6-svlisten1 -U /run/s6/services/mysql
     /phabricator/bin/storage upgrade --force
 }
 
-# Wait for logpipe
+# Wait for logpipe and run phd (which logs to it)
 foreground {
-    s6-svc -uwu /run/s6/services/logpipe
-}
-
-# Run phd (which logs to logpipe)
-foreground {
+    s6-svlisten1 -u /run/s6/services/logpipe
     s6-setuidgid phd /phabricator/bin/phd start
 }
 
-# Wait for php-fpm
+# Wait for php-fpm and start nginx
 foreground {
-    s6-svc -uwu /run/s6/services/php-fpm
-}
-
-# Start nginx
-foreground {
+    s6-svlisten1 -u /run/s6/services/php-fpm
     s6-svc -u /run/s6/services/nginx
 }
