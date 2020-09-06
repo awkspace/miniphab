@@ -88,6 +88,11 @@ foreground {
     s6-setuidgid phd /phabricator/bin/phd start
 }
 
+# Wait for php-fpm
+foreground {
+    s6-svc -uwu /run/s6/services/php-fpm
+}
+
 # Start nginx
 foreground {
     s6-svc -u /run/s6/services/nginx
